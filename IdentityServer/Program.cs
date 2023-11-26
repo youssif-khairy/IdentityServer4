@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddIdentityServer()
+        .AddInMemoryApiScopes(InMemoryConfiguration.GetApiScopes())
+        .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
         .AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
         .AddTestUsers(InMemoryConfiguration.GetUsers())
         .AddInMemoryClients(InMemoryConfiguration.GetClients())
