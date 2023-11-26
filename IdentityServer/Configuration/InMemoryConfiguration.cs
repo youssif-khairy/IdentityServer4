@@ -50,7 +50,21 @@ namespace IdentityServer.Configuration
                     ClientId = "client_identity",
                     ClientSecrets = new [] { new Secret("clientsecret".Sha512()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials, // both grantTypes
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId }
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId , "IdentityServer4.API.Scope" }
+                }
+            };
+
+        public static IEnumerable<ApiScope> GetApiScopes() =>
+            new List<ApiScope> { 
+                new ApiScope("IdentityServer4.API.Scope", "IdentityServer API Scope")
+            };
+
+        public static IEnumerable<ApiResource> GetApiResources() =>
+            new List<ApiResource>
+            {
+                new ApiResource("IdentityServer4.API.Resource", "IdentityServer API Resource")
+                {
+                    Scopes = { "IdentityServer4.API.Scope" }
                 }
             };
     }
