@@ -3,7 +3,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Security.Claims;
 
-namespace IdentityServer.Configuration
+namespace IdentityServer.DBModel.Configuration
 {
     public static class InMemoryConfiguration
     {
@@ -11,7 +11,9 @@ namespace IdentityServer.Configuration
           new List<IdentityResource>
           {
               new IdentityResources.OpenId(),
-              new IdentityResources.Profile()
+              new IdentityResources.Profile(),
+              new IdentityResources.Address(),
+              new IdentityResource("roles",new List<string> { "role" } ),
           };
 
         public static List<TestUser> GetUsers() =>
@@ -26,7 +28,9 @@ namespace IdentityServer.Configuration
                   {
                       /* all profile claims [name , family_name , given_name , middle_name , nickname , preferred_username , profile , picture , website , gender , birthdate , zoneinfo , locale , updated_at ]*/
                       new Claim("given_name", "admin"), // from  Profile Resource
-                      new Claim("family_name", "admin_family")// from  Profile Resource
+                      new Claim("family_name", "admin_family"),// from  Profile Resource
+                      new Claim("address", "cairo address"),// from  address resource
+                      new Claim("role", "Admin"),
                   }
               },
               new TestUser
@@ -37,7 +41,8 @@ namespace IdentityServer.Configuration
                   Claims = new List<Claim>
                   {
                       new Claim("given_name", "youssef"),
-                      new Claim("family_name", "khairy")
+                      new Claim("family_name", "khairy"),
+                      new Claim("role", "visitor"),
                   }
               }
           };
@@ -50,7 +55,7 @@ namespace IdentityServer.Configuration
                     ClientId = "client_identity",
                     ClientSecrets = new [] { new Secret("clientsecret".Sha512()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials, // both grantTypes
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId , "IdentityServer4.API.Scope" }
+                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId , IdentityServerConstants.StandardScopes.Address ,"IdentityServer4.API.Scope", "roles" }
                 }
             };
 
