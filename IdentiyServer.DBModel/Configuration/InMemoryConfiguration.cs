@@ -76,7 +76,7 @@ namespace IdentityServer.DBModel.Configuration
                     AllowedCorsOrigins = { "http://localhost:4200" },
                     RequireClientSecret = false,
                     PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
-                    RequireConsent = false,
+                    RequireConsent = true,//enable consent page to check resources to include in token
                     AccessTokenLifetime = 600
                 }
             };
