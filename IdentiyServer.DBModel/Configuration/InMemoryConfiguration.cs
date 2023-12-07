@@ -21,7 +21,7 @@ namespace IdentityServer.DBModel.Configuration
           {
               new TestUser
               {
-                  SubjectId = "a9ea0f25-b964-409f-bcce-c923266249b4", // from OpenId Resource
+                  SubjectId = "a9ea0f25-b964-409f-bcce-c923266249b5", // from OpenId Resource
                   Username = "admin",
                   Password = "Xyz78900",
                   Claims = new List<Claim>
@@ -44,7 +44,7 @@ namespace IdentityServer.DBModel.Configuration
                       new Claim("family_name", "khairy"),
                       new Claim("role", "visitor"),
                   }
-              }
+              },
           };
 
         public static IEnumerable<Client> GetClients() =>
@@ -56,6 +56,28 @@ namespace IdentityServer.DBModel.Configuration
                     ClientSecrets = new [] { new Secret("clientsecret".Sha512()) },
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials, // both grantTypes
                     AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId , IdentityServerConstants.StandardScopes.Address ,"IdentityServer4.API.Scope", "roles" }
+                },
+               new Client
+                {
+                    ClientName = "Angular-Client",
+                    ClientId = "angular-client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = new List<string>{ "http://localhost:4200/signin-callback", "http://localhost:4200/assets/silent-callback.html" },
+                    RequirePkce = true,
+                    AllowAccessTokensViaBrowser = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address ,
+                       "IdentityServer4.API.Scope",
+                       "roles"
+                    },
+                    AllowedCorsOrigins = { "http://localhost:4200" },
+                    RequireClientSecret = false,
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:4200/signout-callback" },
+                    RequireConsent = true,//enable consent page to check resources to include in token
+                    AccessTokenLifetime = 600
                 }
             };
 

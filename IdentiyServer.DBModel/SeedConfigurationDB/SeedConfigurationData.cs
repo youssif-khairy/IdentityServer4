@@ -18,50 +18,54 @@ namespace IdentiyServer.DBModel.SeedConfigurationDB
     {
         public static IServiceProvider MigrateIdentiyDatabase(this IServiceProvider services)
         {
-            services.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-            var context = services.GetRequiredService<ConfigurationDbContext>();
-            try
+            using (var scope = services.CreateScope())
             {
-                context.Database.Migrate();
-                if (!context.Clients.Any())
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                try
                 {
-                    foreach (var client in InMemoryConfiguration.GetClients())
+                    context.Database.Migrate();
+                    if (!context.Clients.Any())
                     {
-                        context.Clients.Add(client.ToEntity());
+                        foreach (var client in InMemoryConfiguration.GetClients())
+                        {
+                            context.Clients.Add(client.ToEntity());
+                        }
+                        context.SaveChanges();
                     }
-                    context.SaveChanges();
+                    if (!context.IdentityResources.Any())
+                    {
+                        foreach (var resource in InMemoryConfiguration.GetIdentityResources())
+                        {
+                            context.IdentityResources.Add(resource.ToEntity());
+                        }
+                        context.SaveChanges();
+                    }
+                    if (!context.ApiScopes.Any())
+                    {
+                        foreach (var apiScope in InMemoryConfiguration.GetApiScopes())
+                        {
+                            context.ApiScopes.Add(apiScope.ToEntity());
+                        }
+                        context.SaveChanges();
+                    }
+                    if (!context.ApiResources.Any())
+                    {
+                        foreach (var resource in InMemoryConfiguration.GetApiResources())
+                        {
+                            context.ApiResources.Add(resource.ToEntity());
+                        }
+                        context.SaveChanges();
+                    }
                 }
-                if (!context.IdentityResources.Any())
+                catch (Exception ex)
                 {
-                    foreach (var resource in InMemoryConfiguration.GetIdentityResources())
-                    {
-                        context.IdentityResources.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
+                    //Log errors or do anything you think it's needed
+                    throw;
                 }
-                if (!context.ApiScopes.Any())
-                {
-                    foreach (var apiScope in InMemoryConfiguration.GetApiScopes())
-                    {
-                        context.ApiScopes.Add(apiScope.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
-                if (!context.ApiResources.Any())
-                {
-                    foreach (var resource in InMemoryConfiguration.GetApiResources())
-                    {
-                        context.ApiResources.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
+                return services;
             }
-            catch (Exception ex)
-            {
-                //Log errors or do anything you think it's needed
-                throw;
-            }
-            return services;
+            
         }
     }
 }

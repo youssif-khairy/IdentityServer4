@@ -408,3 +408,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /IdentityServer/tempkey.jwk
+/IdentityServer.Frontend/.angular/cache/16.2.10
