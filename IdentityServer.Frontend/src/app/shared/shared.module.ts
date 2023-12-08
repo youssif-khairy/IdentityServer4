@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SigninCallbackComponent } from './components/signin-callback/signin-callback.component';
+import { SignoutCallbackComponent } from './components/signout-callback/signout-callback.component';
 
 
 
@@ -15,7 +16,8 @@ import { SigninCallbackComponent } from './components/signin-callback/signin-cal
     NavBarComponent,
     HomeComponent,
     LoginComponent,
-    SigninCallbackComponent
+    SigninCallbackComponent,
+    SignoutCallbackComponent
   ],
   imports: [
     CommonModule,

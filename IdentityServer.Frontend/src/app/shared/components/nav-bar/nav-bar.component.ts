@@ -8,8 +8,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-  constructor() { }
+
+  userAuthenticated: boolean;
+
+  constructor(
+    private authService:AuthService
+  ) { }
   ngOnInit(): void {
+    this.subsUserAuthenticated()
+  }
+
+  subsUserAuthenticated() {
+    this.authService.isAuthenticated()
+    .then(userAuthenticated => {
+      this.userAuthenticated = userAuthenticated;
+    })
+  }
+
+  logout(){
+    this.authService.logout()
   }
 
 }

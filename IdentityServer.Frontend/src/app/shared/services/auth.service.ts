@@ -54,4 +54,11 @@ export class AuthService {
       return user;
     })
   }
+  public logout = () => {
+    this._userManager.signoutRedirect();
+  }
+  public  finishLogout = () => {
+    this._user = null;
+    return this._userManager.signoutRedirectCallback();
+  }
 }
