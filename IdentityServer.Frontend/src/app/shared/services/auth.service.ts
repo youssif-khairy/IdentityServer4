@@ -21,8 +21,8 @@ export class AuthService {
       redirect_uri: `${ConstantURLS.clientRoot}/signin-callback`, // redirect after successful authentication
       scope: "openid address roles profile IdentityServer4.API.Scope",
       response_type: "code", // grant type
-      post_logout_redirect_uri: `${ConstantURLS.clientRoot}/signout-callback`// redirect after logout
-
+      post_logout_redirect_uri: `${ConstantURLS.clientRoot}/signout-callback`,// redirect after logout
+      
     }
   }
   constructor(private router:Router) {
@@ -54,11 +54,18 @@ export class AuthService {
       return user;
     })
   }
+
   public logout = () => {
     this._userManager.signoutRedirect();
   }
   public  finishLogout = () => {
     this._user = null;
     return this._userManager.signoutRedirectCallback();
+  }
+
+  public async getAccessToken(){
+    return this._userManager.getUser().then(user => {
+      return !!user && !user.expired ? user.access_token : null;
+    })
   }
 }
