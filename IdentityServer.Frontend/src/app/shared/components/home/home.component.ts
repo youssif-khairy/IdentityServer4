@@ -15,9 +15,6 @@ export class HomeComponent implements OnInit {
     this._authService.loginChanged
     .subscribe(userAuthenticated => {
       this.userAuthenticated = userAuthenticated;
-      if(!userAuthenticated){
-        this._authService.login();
-      }
     })
   }
   
