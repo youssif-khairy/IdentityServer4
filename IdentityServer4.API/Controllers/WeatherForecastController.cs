@@ -16,7 +16,7 @@ namespace IdentityServer4.API.Controllers
         {
             _logger = logger;
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

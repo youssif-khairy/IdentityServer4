@@ -1,4 +1,5 @@
 using IdentityServer.DBModel.Configuration;
+using IdentiyServer.DBModel.Configuration;
 using IdentiyServer.DBModel.SeedConfigurationDB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ builder.Services.AddIdentityServer(opt =>
 //.AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
 //.AddInMemoryIdentityResources(InMemoryConfiguration.GetIdentityResources())
 //.AddInMemoryClients(InMemoryConfiguration.GetClients())
+.AddProfileService<CustomProfileService>() //to add user claims to access token
 .AddConfigurationStore(opt =>
 {
     opt.ConfigureDbContext = c => c.UseSqlServer(Configuration.GetConnectionString("IdentityConfigurationDB"),
