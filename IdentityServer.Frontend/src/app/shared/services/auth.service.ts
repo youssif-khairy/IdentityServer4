@@ -22,11 +22,17 @@ export class AuthService {
       scope: "openid address roles profile IdentityServer4.API.Scope",
       response_type: "code", // grant type
       post_logout_redirect_uri: `${ConstantURLS.clientRoot}/signout-callback`,// redirect after logout
-      
+      //silent_redirect_uri: `${ConstantURLS.clientRoot}/assets/silent-callback.html`
     }
   }
   constructor(private router:Router) {
     this._userManager = new UserManager(this.idpSettings);
+    this.listenOnAccessTokenExpiration()
+  }
+  private listenOnAccessTokenExpiration() {
+    this._userManager.events.addAccessTokenExpired(_ =>{
+      this._loginChangedSubject.next(false);
+    })
   }
   public login = () => {
     return this._userManager.signinRedirect().then(x=> {console.log(x)}).catch(x=> console.log(x));
@@ -60,6 +66,7 @@ export class AuthService {
   }
   public  finishLogout = () => {
     this._user = null;
+    this._loginChangedSubject.next(false);
     return this._userManager.signoutRedirectCallback();
   }
 

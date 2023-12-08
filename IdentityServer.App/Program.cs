@@ -12,7 +12,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddIdentityServer(opt =>
 {
-    opt.Authentication.CookieLifetime = TimeSpan.FromMinutes(4);
+    opt.Authentication.CookieLifetime = TimeSpan.FromMinutes(60);//  minutes for idp cookie that open sessoin for lgged in user
     opt.Authentication.CookieSameSiteMode = SameSiteMode.Lax; // to work with http 
 })
 .AddTestUsers(InMemoryConfiguration.GetUsers())
