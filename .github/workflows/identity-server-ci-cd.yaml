@@ -1,0 +1,26 @@
+name: Build and Test .NET Core Identity Server on Windows 11
+
+on:
+  push:
+    branches:
+      - master # Replace with your branch name
+
+jobs:
+  build:
+    runs-on: self-hosted # Use your self-hosted runner label here, if labeled
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.x" # Use your desired .NET version
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+        
