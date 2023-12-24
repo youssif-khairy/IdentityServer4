@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted # Use your self-hosted runner label here, if labeled
+    runs-on: TestRunner # Use your self-hosted runner label here, if labeled
 
     steps:
       - name: Checkout Repository
