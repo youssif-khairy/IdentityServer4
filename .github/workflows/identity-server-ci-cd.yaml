@@ -1,5 +1,8 @@
 name: Build and Test .NET Core Identity Server on Windows 11
 
+env:
+  inputPath: 'C:\actions-runner\actions-runner-win-x64-2.311.0'
+
 on:
   push:
     branches:
