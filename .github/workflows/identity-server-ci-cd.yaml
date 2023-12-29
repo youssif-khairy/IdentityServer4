@@ -1,7 +1,5 @@
 name: Build and Test .NET Core Identity Server on Windows 11
 
-env:
-  inputPath: 'C:\actions-runner\actions-runner-win-x64-2.311.0\_work'
 
 on:
   push:
@@ -13,8 +11,7 @@ jobs:
     runs-on: self-hosted # Use your self-hosted runner label here, if labeled
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
