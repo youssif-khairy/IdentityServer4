@@ -45,7 +45,7 @@ jobs:
           }
         
           Start-Sleep -s 15        
-          Copy-Item outputPPLSH/* C:\inetpub\wwwroot\IdentityServer -Recurse -Force
+          Copy-Item IdentityServer.App/bin/Release/net6.0/* C:\inetpub\wwwroot\IdentityServer -Recurse -Force
         
           if ((Get-WebSiteState -Name IdentityServer).Value -eq "Stopped")
           {
