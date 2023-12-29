@@ -30,14 +30,15 @@ jobs:
     needs: build
 
     steps:
-      - name: Change Directory to frontend project
-        run: cd IdentityServer.Frontend
-
       - name: Install Dependencies
-        run: npm i
+        run: |
+          cd IdentityServer.Frontend  # Change to your directory path
+          npm install
 
       - name: Build Angular App
-        run: npm run build
+        run: |
+          cd IdentityServer.Frontend  # Change to your directory path
+          npm run build
 
   deploy:
     runs-on: self-hosted
