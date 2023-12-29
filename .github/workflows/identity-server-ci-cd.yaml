@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: publish release
-        run: dotnet publish -c ReleaseIdentityServer.App\IdentityServer.App.csproj -o outputPPLSH
+        run: dotnet publish -c IdentityServer.App\IdentityServer.App.csproj -o outputPPLSH
       - name: Deploy to IIS
         run: |
           if ((Get-WebSiteState -Name IdentityServer).Value -eq "Started")
