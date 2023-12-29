@@ -11,7 +11,8 @@ jobs:
     runs-on: self-hosted # Use your self-hosted runner label here, if labeled
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v1
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -23,3 +24,40 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release
+
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: publish release
+        run: dotnet publish -c ReleaseIdentityServer.App\IdentityServer.App.csproj -o outputPPLSH
+      - name: Deploy to IIS
+        run: |
+          if ((Get-WebSiteState -Name IdentityServer).Value -eq "Started")
+          {
+            Stop-WebSite -Name IdentityServer
+            echo "Stopped Website IdentityServer"
+          }
+          if ((Get-WebAppPoolState -Name IdentityServer).Value -eq "Started")
+          {
+            Stop-WebAppPool -Name IdentityServer
+            echo "Stopped Application Pool IdentityServer"
+          }
+        
+          Start-Sleep -s 15        
+          Copy-Item outputPPLSH/* C:\inetpub\wwwroot\IdentityServer -Recurse -Force
+        
+          if ((Get-WebSiteState -Name IdentityServer).Value -eq "Stopped")
+          {
+            Start-WebSite -Name IdentityServer
+            echo "Started Website IdentityServer"
+          }
+          if ((Get-WebAppPoolState -Name IdentityServer).Value -eq "Stopped")
+          {
+            Start-WebAppPool -Name IdentityServer
+            echo "Started Application Pool IdentityServer"
+          }
+        
+          if ($lastexitcode -lt 8) { $global:lastexitcode = 0 }
+     
+    
