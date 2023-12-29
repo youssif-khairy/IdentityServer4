@@ -25,6 +25,16 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release
 
+  angular-build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Install Dependencies
+        run: cd IdentityServer.Frontend && npm i
+
+      - name: Build Angular App
+        run: npm run build
+
   deploy:
     runs-on: self-hosted
 
@@ -60,4 +70,6 @@ jobs:
         
           if ($lastexitcode -lt 8) { $global:lastexitcode = 0 }
      
+
+
     
